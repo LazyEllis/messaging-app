@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "gg sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/gg-sans-Normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "gg sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./assets/gg-sans-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "gg sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./assets/gg-sans-Semibold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "gg sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/gg-sans-Bold.woff2") format("woff2");
+}
+
+@theme {
+  --font-sans: "gg sans", sans-serif;
+}
