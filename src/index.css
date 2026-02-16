@@ -34,4 +34,7 @@
 
 @theme {
   --font-sans: "gg sans", sans-serif;
+  --color-blurple-400: #94a8ff;
+  --color-blurple-500: #5865f2;
+  --color-blurple-600: #4452bb;
 }
