@@ -37,3 +37,5 @@ export const generateToken = (credentials) =>
 
 export const createUser = (userData) =>
   request("/users", { method: "POST", body: JSON.stringify(userData) });
+
+export const getProfile = () => request("/users/@me");
