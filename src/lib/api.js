@@ -39,3 +39,11 @@ export const createUser = (userData) =>
   request("/users", { method: "POST", body: JSON.stringify(userData) });
 
 export const getProfile = () => request("/users/@me");
+
+export const listChannels = () => request("/channels");
+
+export const createDM = (channelData) =>
+  request("/channels/dms", {
+    method: "POST",
+    body: JSON.stringify(channelData),
+  });
