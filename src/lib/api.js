@@ -39,3 +39,28 @@ export const createUser = (userData) =>
   request("/users", { method: "POST", body: JSON.stringify(userData) });
 
 export const getProfile = () => request("/users/@me");
+
+export const listChannels = () => request("/channels");
+
+export const listUsers = () => request("/users");
+
+export const createDM = (channelData) =>
+  request("/channels/dms", {
+    method: "POST",
+    body: JSON.stringify(channelData),
+  });
+
+export const createGroup = (channelData) =>
+  request("/channels/groups", {
+    method: "POST",
+    body: JSON.stringify(channelData),
+  });
+
+export const updateChannel = ({ channelId, channelData }) =>
+  request(`/channels/${channelId}`, {
+    method: "PUT",
+    body: JSON.stringify(channelData),
+  });
+
+export const deleteChannel = (channelId) =>
+  request(`/channels/${channelId}`, { method: "DELETE" });
