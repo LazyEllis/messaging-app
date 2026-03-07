@@ -42,6 +42,8 @@ export const getProfile = () => request("/users/@me");
 
 export const listChannels = () => request("/channels");
 
+export const getChannel = (channelId) => request(`/channels/${channelId}`);
+
 export const listUsers = () => request("/users");
 
 export const createDM = (channelData) =>
@@ -64,3 +66,21 @@ export const updateChannel = ({ channelId, channelData }) =>
 
 export const deleteChannel = (channelId) =>
   request(`/channels/${channelId}`, { method: "DELETE" });
+
+export const listChannelMessages = (channelId) =>
+  request(`/channels/${channelId}/messages`);
+
+export const postMessage = ({ channelId, messageData }) =>
+  request(`/channels/${channelId}/messages`, {
+    method: "POST",
+    body: JSON.stringify(messageData),
+  });
+
+export const updateMessage = ({ channelId, messageId, messageData }) =>
+  request(`/channels/${channelId}/messages/${messageId}`, {
+    method: "PUT",
+    body: JSON.stringify(messageData),
+  });
+
+export const deleteMessage = ({ channelId, messageId }) =>
+  request(`/channels/${channelId}/messages/${messageId}`, { method: "DELETE" });

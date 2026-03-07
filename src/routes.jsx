@@ -2,12 +2,16 @@ import { Navigate } from "react-router";
 import Auth from "./routes/Auth";
 import Layout from "./routes/Layout";
 import Channels from "./routes/Channels";
+import Channel from "./routes/Channel";
 
 const routes = (isAuth) => [
   {
     path: "/",
     element: isAuth ? <Layout /> : <Navigate to="/sign-in" />,
-    children: [{ index: true, element: <Channels /> }],
+    children: [
+      { index: true, element: <Channels /> },
+      { path: "/channels/:id", element: <Channel /> },
+    ],
   },
   {
     path: "/sign-in",
