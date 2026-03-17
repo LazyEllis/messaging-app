@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
@@ -25,6 +25,8 @@ const Channel = () => {
 
   const { id } = useParams();
   const queryClient = useQueryClient();
+  const shouldAutoScroll = useRef(true);
+  const chatRef = useRef(null);
 
   const { data: channel, ...channelQuery } = useQuery({
     queryFn: () => getChannel(id),
@@ -38,6 +40,17 @@ const Channel = () => {
 
   const { data: user, ...userQuery } = useProfile();
 
+  useEffect(() => {
+    const element = chatRef.current;
+
+    if (!element) return;
+
+    if (shouldAutoScroll.current) {
+      element.scrollTop = element.scrollHeight - element.clientHeight;
+      shouldAutoScroll.current = false;
+    }
+  }, [messages]);
+
   const postMutation = useMutation({
     mutationFn: postMessage,
     onSuccess: (data) => {
@@ -46,6 +59,7 @@ const Channel = () => {
         data,
       ]);
       setFormData({ content: "", replyToId: "" });
+      shouldAutoScroll.current = true;
     },
   });
 
@@ -140,7 +154,10 @@ const Channel = () => {
         <h1 className="font-semibold"> {getChannelName(user, channel)}</h1>
       </div>
 
-      <ol className="relative z-10 flex h-full flex-col overflow-x-hidden overflow-y-auto">
+      <ol
+        className="relative z-10 flex h-full flex-col overflow-x-hidden overflow-y-auto"
+        ref={chatRef}
+      >
         {messages.map((message) => (
           <li
             key={message.id}
