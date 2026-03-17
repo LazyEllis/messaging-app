@@ -3,6 +3,7 @@ import Auth from "./routes/Auth";
 import Layout from "./routes/Layout";
 import Channels from "./routes/Channels";
 import Channel from "./routes/Channel";
+import Profile from "./routes/Profile";
 
 const routes = (isAuth) => [
   {
@@ -11,6 +12,7 @@ const routes = (isAuth) => [
     children: [
       { index: true, element: <Channels /> },
       { path: "/channels/:id", element: <Channel /> },
+      { path: "/profile", element: <Profile /> },
     ],
   },
   {

@@ -38,6 +38,9 @@ export const generateToken = (credentials) =>
 export const createUser = (userData) =>
   request("/users", { method: "POST", body: JSON.stringify(userData) });
 
+export const updateProfile = (profileData) =>
+  request("/users/@me", { method: "PUT", body: JSON.stringify(profileData) });
+
 export const getProfile = () => request("/users/@me");
 
 export const listChannels = () => request("/channels");
