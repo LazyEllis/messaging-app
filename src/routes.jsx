@@ -4,10 +4,12 @@ import Layout from "./routes/Layout";
 import Channels from "./routes/Channels";
 import Channel from "./routes/Channel";
 import Profile from "./routes/Profile";
+import Error from "./routes/Error";
 
 const routes = (isAuth) => [
   {
     path: "/",
+    errorElement: <Error />,
     element: isAuth ? <Layout /> : <Navigate to="/sign-in" />,
     children: [
       { index: true, element: <Channels /> },
