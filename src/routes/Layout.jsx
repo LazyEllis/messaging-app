@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useLocation } from "react-router";
 import {
   Dialog,
   DialogBackdrop,
@@ -17,11 +17,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../hooks/useAuth";
 import { useProfile } from "../hooks/useProfile";
+import { classNames } from "../lib/utils";
 import LoadingIcon from "../components/LoadingIcon";
 
 const Layout = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const location = useLocation();
   const { logout } = useAuth();
   const { data: user, error } = useProfile();
 
@@ -76,7 +78,12 @@ const Layout = () => {
                       <li>
                         <Link
                           to="/"
-                          className="flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-white/5 hover:text-white"
+                          className={classNames(
+                            location.pathname !== "/profile"
+                              ? "bg-white/5 text-white"
+                              : "",
+                            "flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-white/5 hover:text-white",
+                          )}
                         >
                           Channels
                         </Link>
@@ -107,7 +114,12 @@ const Layout = () => {
                       <li>
                         <Link
                           to="/profile"
-                          className="flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-white/5 hover:text-white"
+                          className={classNames(
+                            location.pathname === "/profile"
+                              ? "bg-white/5 text-white"
+                              : "",
+                            "flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-white/5 hover:text-white",
+                          )}
                         >
                           Your Profile
                         </Link>
@@ -141,7 +153,12 @@ const Layout = () => {
                   <li>
                     <Link
                       to="/"
-                      className="flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-white/5 hover:text-white"
+                      className={classNames(
+                        location.pathname !== "/profile"
+                          ? "bg-white/5 text-white"
+                          : "",
+                        "flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-white/5 hover:text-white",
+                      )}
                     >
                       Channels
                     </Link>
@@ -172,7 +189,12 @@ const Layout = () => {
                   <li>
                     <Link
                       to="/profile"
-                      className="flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-white/5 hover:text-white"
+                      className={classNames(
+                        location.pathname === "/profile"
+                          ? "bg-white/5 text-white"
+                          : "",
+                        "flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-white/5 hover:text-white",
+                      )}
                     >
                       Your Profile
                     </Link>
