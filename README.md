@@ -2,6 +2,10 @@
 
 This is a web app for a messaging app. It allows users to send messages to each other either as DMs to a single user or in group chats with multiple users.
 
+## Screenshot
+
+![Chats in a DM channel](./screenshots/channel.png?raw=true)
+
 ## Features
 
 - User Authentication
