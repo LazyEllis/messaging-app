@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { PaperAirplaneIcon, XCircleIcon } from "@heroicons/react/24/solid";
 import { useProfile } from "../hooks/useProfile";
+import { socket } from "../lib/socket";
 import {
   deleteMessage,
   getChannel,
@@ -41,6 +42,40 @@ const Channel = () => {
   const { data: user, ...userQuery } = useProfile();
 
   useEffect(() => {
+    const onSentMessage = (data) => {
+      queryClient.setQueryData(["channels", id, "messages"], (messages) => [
+        ...messages,
+        data,
+      ]);
+      shouldAutoScroll.current = true;
+    };
+
+    const onEditedMessage = (data) => {
+      queryClient.setQueryData(["channels", id, "messages"], (messages) =>
+        messages.map((message) => (data.id === message.id ? data : message)),
+      );
+    };
+
+    const onDeletedMessage = (messageId) => {
+      queryClient.setQueryData(["channels", id, "messages"], (messages) =>
+        messages.filter((message) => message.id !== messageId),
+      );
+    };
+
+    socket.emit("join-channel", id);
+    socket.on("sent-message", onSentMessage);
+    socket.on("edited-message", onEditedMessage);
+    socket.on("deleted-message", onDeletedMessage);
+
+    return () => {
+      socket.emit("leave-channel", id);
+      socket.off("sent-message", onSentMessage);
+      socket.off("edited-message", onEditedMessage);
+      socket.off("deleted-message", onDeletedMessage);
+    };
+  }, [id, queryClient]);
+
+  useEffect(() => {
     const element = chatRef.current;
 
     if (!element) return;
@@ -60,6 +95,7 @@ const Channel = () => {
       ]);
       setFormData({ content: "", replyToId: "" });
       shouldAutoScroll.current = true;
+      socket.emit("send-message", id, data);
     },
   });
 
@@ -70,6 +106,7 @@ const Channel = () => {
         messages.map((message) => (data.id === message.id ? data : message)),
       );
       setAction({ id: null, name: "", content: "" });
+      socket.emit("edit-message", id, data);
     },
   });
 
@@ -80,6 +117,7 @@ const Channel = () => {
         messages.filter((message) => message.id !== action.id),
       );
       setAction({ id: null, name: "", content: "" });
+      socket.emit("delete-message", id, action.id);
     },
   });
 

@@ -17,6 +17,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../hooks/useAuth";
 import { useProfile } from "../hooks/useProfile";
+import { socket } from "../lib/socket";
 import { classNames } from "../lib/utils";
 import LoadingIcon from "../components/LoadingIcon";
 
@@ -32,6 +33,14 @@ const Layout = () => {
       logout();
     }
   }, [error?.message, logout]);
+
+  useEffect(() => {
+    socket.connect();
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
