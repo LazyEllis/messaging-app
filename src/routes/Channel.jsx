@@ -88,36 +88,23 @@ const Channel = () => {
 
   const postMutation = useMutation({
     mutationFn: postMessage,
-    onSuccess: (data) => {
-      queryClient.setQueryData(["channels", id, "messages"], (messages) => [
-        ...messages,
-        data,
-      ]);
+    onSuccess: () => {
       setFormData({ content: "", replyToId: "" });
       shouldAutoScroll.current = true;
-      socket.emit("send-message", id, data);
     },
   });
 
   const updateMutation = useMutation({
     mutationFn: updateMessage,
-    onSuccess: (data) => {
-      queryClient.setQueryData(["channels", id, "messages"], (messages) =>
-        messages.map((message) => (data.id === message.id ? data : message)),
-      );
+    onSuccess: () => {
       setAction({ id: null, name: "", content: "" });
-      socket.emit("edit-message", id, data);
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: deleteMessage,
     onSuccess: () => {
-      queryClient.setQueryData(["channels", id, "messages"], (messages) =>
-        messages.filter((message) => message.id !== action.id),
-      );
       setAction({ id: null, name: "", content: "" });
-      socket.emit("delete-message", id, action.id);
     },
   });
 
